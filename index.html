@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  #app {
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #create {
+    display: none;
+    height: 300px;
+    width: 300px;
+    border: 2px solid black;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+</style>
+<script type="module">
+  import { DataGraphEditor, DataShapeCreator } from '/src/main.ts'
+
+  window.onload = () => {
+    const editor = new DataGraphEditor('app', {
+      cfg: {
+      },
+      onSelect(s) {
+        console.log('select', s)
+      },
+    })
+
+    window.changeMode = () => {
+      editor.mode
+    }
+
+    window.create = () => {
+      document.getElementById('create').style.display = 'unset'
+      const creator = new DataShapeCreator('create')
+      document.addEventListener('click', (e) => {
+        if(e.currentTarget === document){
+          const res = creator.create()
+          console.log('result', res)
+        }
+      })
+    }
+  }
+</script>
+
+<body onload="load()">
+  <div id="operate">
+    <button class="add" onclick="create()">添加</button>
+    <div class="mode">
+      <button>选择</button>
+      <button>画线</button>
+    </div>
+  </div>
+  <div id="app"></div>
+  <div id="create"></div>
+</body>
+
+</html>
